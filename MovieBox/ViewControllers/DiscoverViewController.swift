@@ -13,6 +13,8 @@ class DiscoverViewController: UIViewController {
     @IBOutlet weak var nowPlayingCollectionView: UICollectionView!
     @IBOutlet weak var topRatedCollectionView: UICollectionView!
 
+    private let viewModel = DiscoverViewModel()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -31,6 +33,19 @@ class DiscoverViewController: UIViewController {
         topRatedCollectionView.delegate = self
         topRatedCollectionView.dataSource = self
 
+        Task {
+            do {
+                try await viewModel.fetchMovies()
+
+                popularCollectionView.reloadData()
+                nowPlayingCollectionView.reloadData()
+                topRatedCollectionView.reloadData()
+
+            } catch {
+                print("Error: ", error)
+            }
+        }
+
     }
 
 }
@@ -45,7 +60,18 @@ extension DiscoverViewController: UICollectionViewDelegate,
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        return mockMovies.count
+
+        switch collectionView {
+        case popularCollectionView:
+            return viewModel.popularMovies.count
+        case nowPlayingCollectionView:
+            return viewModel.nowPlayingMovies.count
+        case topRatedCollectionView:
+            return viewModel.topRatedMovies.count
+        default:
+            return 0
+
+        }
     }
 
     func collectionView(
@@ -62,16 +88,25 @@ extension DiscoverViewController: UICollectionViewDelegate,
             return UICollectionViewCell()
         }
 
-        let movie = mockMovies[indexPath.item]
-        cell.configure(title: movie.0, rating: movie.1, imageName: "")
+        let movie: Movie
+
+        switch collectionView {
+        case popularCollectionView:
+            movie = viewModel.popularMovies[indexPath.item]
+        case topRatedCollectionView:
+            movie = viewModel.topRatedMovies[indexPath.item]
+        case nowPlayingCollectionView:
+            movie = viewModel.nowPlayingMovies[indexPath.item]
+        default:
+            fatalError("Unhandled collection view")
+        }
+
+        cell.configure(
+            title: movie.title,
+            rating: movie.voteAverage,
+            imageName: ""
+        )
 
         return cell
     }
 }
-
-private let mockMovies = [
-    ("Dune", 8.2),
-    ("Oppenheimer", 8.5),
-    ("The Batman", 7.8),
-    ("Interstellar", 8.7),
-]
