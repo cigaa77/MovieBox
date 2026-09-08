@@ -348,6 +348,8 @@
 		};
 		1918BFC6304FEC4900FEDC6F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 1918BF9C304FEC4700FEDC6F /* MovieBox */;
+			baseConfigurationReferenceRelativePath = Utilities/Secrets.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -412,6 +414,8 @@
 		};
 		1918BFC7304FEC4900FEDC6F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 1918BF9C304FEC4700FEDC6F /* MovieBox */;
+			baseConfigurationReferenceRelativePath = Utilities/Secrets.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;

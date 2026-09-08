@@ -30,6 +30,7 @@ class DiscoverViewController: UIViewController {
 
         topRatedCollectionView.delegate = self
         topRatedCollectionView.dataSource = self
+
     }
 
 }
@@ -51,7 +52,7 @@ extension DiscoverViewController: UICollectionViewDelegate,
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        print("🎬 Cell isteniyor:", indexPath.item)
+
         guard
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "MovieCell",
