@@ -13,6 +13,9 @@ final class MovieCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var ratingLabel: UILabel!
 
+    private let imageLoader = ImageLoader.shared
+    private var imageTask: Task<Void, Never>?
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -20,17 +23,46 @@ final class MovieCollectionViewCell: UICollectionViewCell {
         posterImageView.clipsToBounds = true
     }
 
-    func configure(title: String, rating: Double, imageName: String) {
+    override func prepareForReuse() {
+        super.prepareForReuse()
 
-        if let image = UIImage(named: imageName), !imageName.isEmpty {
-            posterImageView.image = image
-            posterImageView.contentMode = .scaleAspectFill
-        } else {
-            posterImageView.image = UIImage(systemName: "film")
-            posterImageView.contentMode = .scaleAspectFit
-            posterImageView.tintColor = .secondaryLabel
-            posterImageView.backgroundColor = .secondarySystemBackground
+        imageTask?.cancel()
+        imageTask = nil
+
+        posterImageView.image = UIImage(systemName: "film")
+        posterImageView.contentMode = .scaleAspectFit
+        posterImageView.tintColor = .secondaryLabel
+        posterImageView.backgroundColor = .secondarySystemBackground
+    }
+
+    func configure(title: String, rating: Double, posterURL: URL?) {
+
+        posterImageView.image = UIImage(systemName: "film")
+        posterImageView.contentMode = .scaleAspectFit
+        posterImageView.tintColor = .secondaryLabel
+        posterImageView.backgroundColor = .secondarySystemBackground
+
+        guard let posterURL else {
+            return
         }
+
+        imageTask = Task {
+            do {
+                let image = try await imageLoader.loadImage(from: posterURL)
+
+                guard !Task.isCancelled else {
+                    return
+                }
+
+                posterImageView.image = image
+                posterImageView.contentMode = .scaleAspectFill
+            } catch is CancellationError {
+                // Cell reuse nedeniyle iptal edildi.
+            } catch {
+                print("Image loading error:", error)
+            }
+        }
+
         titleLabel.text = title
         ratingLabel.text = "⭐️ \(rating)"
     }

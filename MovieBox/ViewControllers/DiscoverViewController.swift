@@ -104,7 +104,7 @@ extension DiscoverViewController: UICollectionViewDelegate,
         cell.configure(
             title: movie.title,
             rating: movie.voteAverage,
-            imageName: ""
+            posterURL: movie.posterURL
         )
 
         return cell
