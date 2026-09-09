@@ -81,4 +81,48 @@ final class TMDBService {
 
         return movieResponse
     }
+
+    func searchMovies(query: String) async throws -> MovieResponse {
+
+        let urlString = "\(baseURL)/search/movie"
+
+        guard let url = URL(string: urlString) else {
+            throw NetworkError.invalidURL
+        }
+
+        var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+        components?.queryItems = [
+            URLQueryItem(name: "query", value: query),
+            URLQueryItem(name: "language", value: "en-US"),
+            URLQueryItem(name: "age", value: "1"),
+        ]
+
+        guard let finalURL = components?.url else {
+            throw NetworkError.invalidURL
+        }
+
+        var request = URLRequest(url: finalURL)
+        request.httpMethod = "GET"
+        request.setValue(
+            "Bearer \(APIConfig.tmdbAccessToken)",
+            forHTTPHeaderField: "Authorization"
+        )
+
+        let (data, response) = try await URLSession.shared.data(for: request)
+
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw NetworkError.invalidResponse
+        }
+
+        guard (200...299).contains(httpResponse.statusCode) else {
+            throw NetworkError.httpError(statusCode: httpResponse.statusCode)
+        }
+
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+
+        let movieResponse = try decoder.decode(MovieResponse.self, from: data)
+
+        return movieResponse
+    }
 }
