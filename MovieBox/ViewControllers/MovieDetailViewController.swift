@@ -18,6 +18,7 @@ final class MovieDetailViewController: UIViewController {
     @IBOutlet weak var favoriteButton: UIButton!
     @IBOutlet weak var directorLabel: UILabel!
     @IBOutlet weak var castCollectionView: UICollectionView!
+    @IBOutlet weak var similarMoviesCollectionView: UICollectionView!
 
     var movie: Movie?
     private let viewModel = MovieDetailViewModel()
@@ -27,6 +28,9 @@ final class MovieDetailViewController: UIViewController {
 
         castCollectionView.delegate = self
         castCollectionView.dataSource = self
+
+        similarMoviesCollectionView.delegate = self
+        similarMoviesCollectionView.dataSource = self
 
         guard let movie else { return }
 
@@ -64,9 +68,9 @@ final class MovieDetailViewController: UIViewController {
                 if let director = viewModel.director {
                     directorLabel.text = "Director: \(director.name)"
                 }
-                print("CAST COUNT:", viewModel.cast.count)
 
                 castCollectionView.reloadData()
+                similarMoviesCollectionView.reloadData()
 
             } catch { print(error) }
         }
@@ -127,7 +131,12 @@ extension MovieDetailViewController: UICollectionViewDelegate,
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        return viewModel.cast.count
+
+        if collectionView == castCollectionView {
+            return viewModel.cast.count
+        } else {
+            return viewModel.similarMovies.count
+        }
     }
 
     func collectionView(
@@ -135,16 +144,52 @@ extension MovieDetailViewController: UICollectionViewDelegate,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
 
+        if collectionView == castCollectionView {
+            guard
+                let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: "CastCell",
+                    for: indexPath
+                ) as? CastCollectionViewCell
+            else { return UICollectionViewCell() }
+
+            let castMember = viewModel.cast[indexPath.item]
+            cell.configure(with: castMember)
+
+            return cell
+        } else {
+            guard
+                let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: "MovieCell",
+                    for: indexPath
+                ) as? MovieCollectionViewCell
+            else { return UICollectionViewCell() }
+
+            let movie = viewModel.similarMovies[indexPath.item]
+            cell.configure(
+                title: movie.title,
+                rating: movie.voteAverage,
+                posterURL: movie.posterURL
+            )
+            return cell
+        }
+    }
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        didSelectItemAt indexPath: IndexPath
+    ) {
+        guard collectionView == similarMoviesCollectionView else { return }
+
+        let selectedMovie = viewModel.similarMovies[indexPath.item]
+
         guard
-            let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: "CastCell",
-                for: indexPath
-            ) as? CastCollectionViewCell
-        else { return UICollectionViewCell() }
+            let detailVC = storyboard?.instantiateViewController(
+                withIdentifier: "MovieDetailViewController"
+            ) as? MovieDetailViewController
+        else { return }
 
-        let castMember = viewModel.cast[indexPath.item]
-        cell.configure(with: castMember)
+        detailVC.movie = selectedMovie
 
-        return cell
+        navigationController?.pushViewController(detailVC, animated: true)
     }
 }

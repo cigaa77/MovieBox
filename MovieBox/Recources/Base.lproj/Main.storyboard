@@ -114,7 +114,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="glL-oe-4Fp" userLabel="Content View">
-                                        <rect key="frame" x="0.0" y="0.0" width="393" height="888.33333333333337"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="393" height="1130.3333333333333"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ohb-HH-r2f" userLabel="Backdrop Image">
                                                 <rect key="frame" x="0.0" y="0.0" width="393" height="240"/>
@@ -242,6 +242,72 @@
                                                     </collectionViewCell>
                                                 </cells>
                                             </collectionView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Similar Movies" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZHU-7k-svy">
+                                                <rect key="frame" x="20" y="888.33333333333337" width="353" height="24"/>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="kzb-43-URU" userLabel="Similar Collection View">
+                                                <rect key="frame" x="20" y="924.33333333333348" width="353" height="230"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="230" id="Dqk-6U-8KZ"/>
+                                                </constraints>
+                                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="SqO-Gn-aEU">
+                                                    <size key="itemSize" width="130" height="225"/>
+                                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                </collectionViewFlowLayout>
+                                                <cells>
+                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MovieCell" id="8oE-eT-nLv" customClass="MovieCollectionViewCell" customModule="MovieBox" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="2.6666666666666665" width="130" height="225"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="S6j-EJ-IwI">
+                                                            <rect key="frame" x="0.0" y="0.0" width="130" height="225"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <subviews>
+                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="19s-vd-WW1" userLabel="poster">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="130" height="175"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="175" id="ncq-f7-U0O"/>
+                                                                    </constraints>
+                                                                </imageView>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P7B-oY-UmU" userLabel="title">
+                                                                    <rect key="frame" x="0.0" y="181" width="130" height="21"/>
+                                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
+                                                                    <nil key="textColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="joe-LW-Ro2" userLabel="rating">
+                                                                    <rect key="frame" x="0.0" y="206" width="130" height="20.333333333333343"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                                    <nil key="textColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                            </subviews>
+                                                            <constraints>
+                                                                <constraint firstAttribute="trailing" secondItem="19s-vd-WW1" secondAttribute="trailing" id="Cp7-BG-7pN"/>
+                                                                <constraint firstItem="19s-vd-WW1" firstAttribute="top" secondItem="S6j-EJ-IwI" secondAttribute="top" id="GI4-kd-JAj"/>
+                                                                <constraint firstAttribute="bottom" relation="lessThanOrEqual" secondItem="joe-LW-Ro2" secondAttribute="bottom" id="Ixg-ft-1Yl"/>
+                                                                <constraint firstItem="P7B-oY-UmU" firstAttribute="leading" secondItem="S6j-EJ-IwI" secondAttribute="leading" id="QRT-sx-JLA"/>
+                                                                <constraint firstItem="P7B-oY-UmU" firstAttribute="top" secondItem="19s-vd-WW1" secondAttribute="bottom" constant="6" id="YXy-qU-owx"/>
+                                                                <constraint firstItem="joe-LW-Ro2" firstAttribute="leading" secondItem="S6j-EJ-IwI" secondAttribute="leading" id="aaR-jF-i6c"/>
+                                                                <constraint firstItem="19s-vd-WW1" firstAttribute="leading" secondItem="S6j-EJ-IwI" secondAttribute="leading" id="jiF-MX-TNd"/>
+                                                                <constraint firstItem="joe-LW-Ro2" firstAttribute="top" secondItem="P7B-oY-UmU" secondAttribute="bottom" constant="4" id="mAw-fu-Ht6"/>
+                                                                <constraint firstAttribute="trailing" secondItem="joe-LW-Ro2" secondAttribute="trailing" id="tip-al-zPH"/>
+                                                                <constraint firstAttribute="trailing" secondItem="P7B-oY-UmU" secondAttribute="trailing" id="vOm-KU-qQK"/>
+                                                            </constraints>
+                                                        </collectionViewCellContentView>
+                                                        <connections>
+                                                            <outlet property="posterImageView" destination="19s-vd-WW1" id="lvD-VO-W0s"/>
+                                                            <outlet property="ratingLabel" destination="joe-LW-Ro2" id="xx0-OJ-Z2W"/>
+                                                            <outlet property="titleLabel" destination="P7B-oY-UmU" id="LRQ-Vh-TUe"/>
+                                                        </connections>
+                                                    </collectionViewCell>
+                                                </cells>
+                                            </collectionView>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
@@ -257,12 +323,16 @@
                                             <constraint firstItem="4Fi-NR-SWR" firstAttribute="leading" secondItem="glL-oe-4Fp" secondAttribute="leading" constant="20" id="Ekp-Kw-e1I"/>
                                             <constraint firstAttribute="trailing" secondItem="Z30-Gm-Rrj" secondAttribute="trailing" constant="20" id="Exs-Qe-hQw"/>
                                             <constraint firstAttribute="trailing" secondItem="n9r-8r-Bhu" secondAttribute="trailing" constant="20" id="I5a-nZ-rBc"/>
+                                            <constraint firstItem="kzb-43-URU" firstAttribute="leading" secondItem="glL-oe-4Fp" secondAttribute="leading" constant="20" id="Im4-3E-YV9"/>
                                             <constraint firstItem="Z30-Gm-Rrj" firstAttribute="leading" secondItem="glL-oe-4Fp" secondAttribute="leading" constant="20" id="KbU-eJ-BGi"/>
                                             <constraint firstItem="n9r-8r-Bhu" firstAttribute="top" secondItem="k0l-zg-KPC" secondAttribute="bottom" constant="8" id="NdX-lR-FBa"/>
                                             <constraint firstAttribute="trailing" secondItem="k0l-zg-KPC" secondAttribute="trailing" constant="20" id="P0R-vX-Rej"/>
                                             <constraint firstItem="4Fi-NR-SWR" firstAttribute="top" secondItem="k20-Fu-hkY" secondAttribute="bottom" constant="8" id="Qgs-6X-i3r"/>
                                             <constraint firstAttribute="trailing" secondItem="ohb-HH-r2f" secondAttribute="trailing" id="Rvf-3t-EGX"/>
+                                            <constraint firstItem="kzb-43-URU" firstAttribute="bottom" secondItem="glL-oe-4Fp" secondAttribute="bottom" constant="24" id="VK8-z8-I8e"/>
+                                            <constraint firstAttribute="trailing" secondItem="ZHU-7k-svy" secondAttribute="trailing" constant="20" id="Wst-QL-iYL"/>
                                             <constraint firstAttribute="trailing" secondItem="3WF-hA-5fw" secondAttribute="trailing" constant="20" id="XNg-W7-Tp0"/>
+                                            <constraint firstItem="ZHU-7k-svy" firstAttribute="leading" secondItem="glL-oe-4Fp" secondAttribute="leading" constant="20" id="aKi-HG-f2M"/>
                                             <constraint firstItem="k20-Fu-hkY" firstAttribute="leading" secondItem="glL-oe-4Fp" secondAttribute="leading" constant="20" id="bdT-Ib-hWC"/>
                                             <constraint firstItem="3WF-hA-5fw" firstAttribute="leading" secondItem="k20-Fu-hkY" secondAttribute="trailing" constant="20" id="c2d-Zv-LlW"/>
                                             <constraint firstAttribute="trailing" secondItem="qPW-7B-Yy6" secondAttribute="trailing" constant="20" id="dJf-Zg-IcU"/>
@@ -273,11 +343,13 @@
                                             <constraint firstItem="HOL-cG-U9h" firstAttribute="top" secondItem="n9r-8r-Bhu" secondAttribute="bottom" constant="24" id="keI-r0-ztK"/>
                                             <constraint firstItem="k20-Fu-hkY" firstAttribute="top" secondItem="ohb-HH-r2f" secondAttribute="bottom" constant="20" id="m0k-Mn-Cbm"/>
                                             <constraint firstItem="k0l-zg-KPC" firstAttribute="top" secondItem="4Fi-NR-SWR" secondAttribute="bottom" constant="8" id="njD-qG-45C"/>
+                                            <constraint firstAttribute="trailing" secondItem="kzb-43-URU" secondAttribute="trailing" constant="20" id="pS4-fD-B3f"/>
                                             <constraint firstAttribute="trailing" secondItem="xuY-Sg-rbk" secondAttribute="trailing" constant="20" id="ttT-wN-7xV"/>
                                             <constraint firstItem="PoH-BE-us9" firstAttribute="top" secondItem="xuY-Sg-rbk" secondAttribute="bottom" constant="24" id="v1d-Ug-IpT"/>
                                             <constraint firstAttribute="trailing" secondItem="PoH-BE-us9" secondAttribute="trailing" constant="20" id="wIw-7A-e4W"/>
+                                            <constraint firstItem="kzb-43-URU" firstAttribute="top" secondItem="ZHU-7k-svy" secondAttribute="bottom" constant="12" id="whM-3w-gt6"/>
                                             <constraint firstItem="qPW-7B-Yy6" firstAttribute="leading" secondItem="glL-oe-4Fp" secondAttribute="leading" constant="20" id="x8D-YQ-2eQ"/>
-                                            <constraint firstAttribute="bottom" secondItem="Z30-Gm-Rrj" secondAttribute="bottom" constant="24" id="zSp-pm-Tm2"/>
+                                            <constraint firstItem="ZHU-7k-svy" firstAttribute="top" secondItem="Z30-Gm-Rrj" secondAttribute="bottom" constant="24" id="yK2-Ag-Vfn"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -311,6 +383,7 @@
                         <outlet property="infoLabel" destination="4Fi-NR-SWR" id="5eB-CN-UTV"/>
                         <outlet property="overviewLabel" destination="qPW-7B-Yy6" id="HPD-gG-1jk"/>
                         <outlet property="ratingLabel" destination="n9r-8r-Bhu" id="hcW-AM-0K4"/>
+                        <outlet property="similarMoviesCollectionView" destination="kzb-43-URU" id="S9d-ZK-Ra4"/>
                         <outlet property="titleLabel" destination="k20-Fu-hkY" id="hzm-OV-Nx3"/>
                     </connections>
                 </viewController>
