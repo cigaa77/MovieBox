@@ -200,4 +200,35 @@ final class TMDBService {
             from: data
         )
     }
+
+    func fetchMovieCredits(id: Int) async throws -> MovieCredits {
+
+        let urlString = "\(baseURL)/movie/\(id)/credits"
+
+        guard let url = URL(string: urlString) else {
+            throw NetworkError.invalidURL
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue(
+            "Bearer \(APIConfig.tmdbAccessToken)",
+            forHTTPHeaderField: "Authorization"
+        )
+
+        let (data, response) = try await URLSession.shared.data(for: request)
+
+        guard let response = response as? HTTPURLResponse else {
+            throw NetworkError.invalidResponse
+        }
+
+        guard (200...299).contains(response.statusCode) else {
+            throw NetworkError.httpError(statusCode: response.statusCode)
+        }
+
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+
+        return try decoder.decode(MovieCredits.self, from: data)
+    }
 }

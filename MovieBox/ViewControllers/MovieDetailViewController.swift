@@ -16,12 +16,17 @@ final class MovieDetailViewController: UIViewController {
     @IBOutlet weak var overviewLabel: UILabel!
     @IBOutlet weak var genresLabel: UILabel!
     @IBOutlet weak var favoriteButton: UIButton!
+    @IBOutlet weak var directorLabel: UILabel!
+    @IBOutlet weak var castCollectionView: UICollectionView!
 
     var movie: Movie?
     private let viewModel = MovieDetailViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        castCollectionView.delegate = self
+        castCollectionView.dataSource = self
 
         guard let movie else { return }
 
@@ -55,6 +60,13 @@ final class MovieDetailViewController: UIViewController {
                 }
 
                 infoLabel.text = infoParts.joined(separator: " • ")
+
+                if let director = viewModel.director {
+                    directorLabel.text = "Director: \(director.name)"
+                }
+                print("CAST COUNT:", viewModel.cast.count)
+
+                castCollectionView.reloadData()
 
             } catch { print(error) }
         }
@@ -104,5 +116,35 @@ final class MovieDetailViewController: UIViewController {
             return "\(hours)h"
         }
         return "\(hours)h \(minutes)m"
+    }
+}
+
+extension MovieDetailViewController: UICollectionViewDelegate,
+    UICollectionViewDataSource
+{
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        numberOfItemsInSection section: Int
+    ) -> Int {
+        return viewModel.cast.count
+    }
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
+
+        guard
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: "CastCell",
+                for: indexPath
+            ) as? CastCollectionViewCell
+        else { return UICollectionViewCell() }
+
+        let castMember = viewModel.cast[indexPath.item]
+        cell.configure(with: castMember)
+
+        return cell
     }
 }
