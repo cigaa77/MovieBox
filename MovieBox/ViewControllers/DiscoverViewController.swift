@@ -109,4 +109,33 @@ extension DiscoverViewController: UICollectionViewDelegate,
 
         return cell
     }
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        didSelectItemAt indexPath: IndexPath
+    ) {
+
+        let movie: Movie
+
+        switch collectionView {
+        case popularCollectionView:
+            movie = viewModel.popularMovies[indexPath.item]
+        case topRatedCollectionView:
+            movie = viewModel.topRatedMovies[indexPath.item]
+        case nowPlayingCollectionView:
+            movie = viewModel.nowPlayingMovies[indexPath.item]
+        default:
+            return
+        }
+
+        guard
+            let detailVC = storyboard?.instantiateViewController(
+                identifier: "MovieDetailViewController"
+            ) as? MovieDetailViewController
+        else { return }
+
+        detailVC.movie = movie
+
+        navigationController?.pushViewController(detailVC, animated: true)
+    }
 }

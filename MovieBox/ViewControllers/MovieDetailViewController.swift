@@ -1,0 +1,108 @@
+//
+//  MovieDetailViewController.swift
+//  MovieBox
+//
+//  Created by Ahmet CILINGIR on 09.09.26.
+//
+
+import UIKit
+
+final class MovieDetailViewController: UIViewController {
+
+    @IBOutlet weak var backdropImageView: UIImageView!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var infoLabel: UILabel!
+    @IBOutlet weak var ratingLabel: UILabel!
+    @IBOutlet weak var overviewLabel: UILabel!
+    @IBOutlet weak var genresLabel: UILabel!
+    @IBOutlet weak var favoriteButton: UIButton!
+
+    var movie: Movie?
+    private let viewModel = MovieDetailViewModel()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        guard let movie else { return }
+
+        configure(with: movie)
+
+        Task {
+            do {
+                try await viewModel.fetchMovieDetail(id: movie.id)
+
+                guard let detail = viewModel.movieDetail else { return }
+
+                let genresText = detail.genres
+                    .map { $0.name }
+                    .joined(separator: " • ")
+
+                genresLabel.text = genresText
+
+                var infoParts: [String] = []
+
+                let year = String(detail.releaseDate.prefix(4))
+                infoParts.append(year)
+
+                if let runtime = detail.runtime,
+                    let runtimeText = formatRuntime(runtime)
+                {
+                    infoParts.append(runtimeText)
+                }
+
+                if let certification = viewModel.certification {
+                    infoParts.append(certification)
+                }
+
+                infoLabel.text = infoParts.joined(separator: " • ")
+
+            } catch { print(error) }
+        }
+    }
+
+    private func configure(with movie: Movie) {
+
+        titleLabel.text = movie.title
+
+        let year = String(movie.releaseDate.prefix(4))
+        infoLabel.text = year
+
+        ratingLabel.text =
+            "⭐ \(String(format: "%.1f", movie.voteAverage))  •  \(movie.voteCount) votes"
+
+        overviewLabel.text = movie.overview
+
+        if let backdropURL = movie.backdropURL {
+
+            Task {
+                do {
+                    let image = try await ImageLoader.shared.loadImage(
+                        from: backdropURL
+                    )
+                    backdropImageView.image = image
+                } catch {
+                    print(error)
+                }
+            }
+
+        }
+
+    }
+
+    private func formatRuntime(_ runtime: Int) -> String? {
+
+        guard runtime > 0 else { return nil }
+
+        let hours = runtime / 60
+        let minutes = runtime % 60
+
+        if hours == 0 {
+            return "\(minutes)m"
+        }
+
+        if minutes == 0 {
+            return "\(hours)h"
+        }
+        return "\(hours)h \(minutes)m"
+    }
+}

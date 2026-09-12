@@ -125,4 +125,79 @@ final class TMDBService {
 
         return movieResponse
     }
+
+    func fetchMovieDetail(id: Int) async throws -> MovieDetail {
+
+        let urlString = "\(baseURL)/movie/\(id)"
+
+        guard let url = URL(string: urlString) else {
+            throw NetworkError.invalidURL
+        }
+
+        var components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+        components?.queryItems = [
+            URLQueryItem(name: "language", value: "en-US")
+        ]
+
+        guard let finalURL = components?.url else {
+            throw NetworkError.invalidURL
+        }
+
+        var request = URLRequest(url: finalURL)
+        request.httpMethod = "GET"
+        request.setValue(
+            "Bearer \(APIConfig.tmdbAccessToken)",
+            forHTTPHeaderField: "Authorization"
+        )
+
+        let (data, response) = try await URLSession.shared.data(for: request)
+
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw NetworkError.invalidResponse
+        }
+
+        guard (200...299).contains(httpResponse.statusCode) else {
+            throw NetworkError.httpError(statusCode: httpResponse.statusCode)
+        }
+
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+
+        return try decoder.decode(MovieDetail.self, from: data)
+    }
+
+    func fetchMovieReleaseDates(id: Int) async throws
+        -> MovieReleaseDatesResponse
+    {
+
+        let urlString = "\(baseURL)/movie/\(id)/release_dates"
+
+        guard let url = URL(string: urlString) else {
+            throw NetworkError.invalidURL
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue(
+            "Bearer \(APIConfig.tmdbAccessToken)",
+            forHTTPHeaderField: "Authorization"
+        )
+
+        let (data, response) = try await URLSession.shared.data(for: request)
+
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw NetworkError.invalidResponse
+        }
+
+        guard (200...299).contains(httpResponse.statusCode) else {
+            throw NetworkError.httpError(statusCode: httpResponse.statusCode)
+        }
+
+        let decoder = JSONDecoder()
+
+        return try decoder.decode(
+            MovieReleaseDatesResponse.self,
+            from: data
+        )
+    }
 }
