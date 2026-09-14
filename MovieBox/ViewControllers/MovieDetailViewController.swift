@@ -22,6 +22,7 @@ final class MovieDetailViewController: UIViewController {
 
     var movie: Movie?
     private let viewModel = MovieDetailViewModel()
+    private let favoritesStore = FavoritesStore()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +36,7 @@ final class MovieDetailViewController: UIViewController {
         guard let movie else { return }
 
         configure(with: movie)
+        updateFavoriteButton()
 
         Task {
             do {
@@ -120,6 +122,40 @@ final class MovieDetailViewController: UIViewController {
             return "\(hours)h"
         }
         return "\(hours)h \(minutes)m"
+    }
+
+    @IBAction func favoriteButtonTapped(_ sender: UIButton) {
+        guard let movie else { return }
+
+        do {
+            let isFavorite = try favoritesStore.isFavorite(movieID: movie.id)
+
+            if isFavorite {
+                try favoritesStore.remove(movieID: movie.id)
+            } else {
+                try favoritesStore.save(movie: movie)
+            }
+            updateFavoriteButton()
+
+        } catch {
+            print(error)
+        }
+    }
+
+    private func updateFavoriteButton() {
+        guard let movie else { return }
+
+        do {
+            let isFavorite = try favoritesStore.isFavorite(movieID: movie.id)
+
+            let imageName = isFavorite ? "heart.fill" : "heart"
+
+            favoriteButton.setImage(
+                UIImage(systemName: imageName),
+                for: .normal
+            )
+        } catch { print(error) }
+
     }
 }
 
