@@ -703,10 +703,78 @@
                     <view key="view" contentMode="scaleToFill" id="etK-3e-ARs">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="OlG-fD-xYh">
+                                <rect key="frame" x="16" y="172" width="361" height="563"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="20" minimumInteritemSpacing="12" id="26x-Zw-BsT">
+                                    <size key="itemSize" width="170" height="285"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MovieCell" id="ngW-oR-VnH" customClass="MovieCollectionViewCell" customModule="MovieBox" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="170" height="285"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="HZ1-pI-ewl">
+                                            <rect key="frame" x="0.0" y="0.0" width="170" height="285"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gMo-Gm-IHM" userLabel="Poster">
+                                                    <rect key="frame" x="0.0" y="0.0" width="170" height="230"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="230" id="W4h-yL-fWW"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PAN-Py-Xnf">
+                                                    <rect key="frame" x="0.0" y="236" width="170" height="18"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rating" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S9b-bl-CPN">
+                                                    <rect key="frame" x="0.0" y="258" width="170" height="15.666666666666686"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="S9b-bl-CPN" firstAttribute="leading" secondItem="HZ1-pI-ewl" secondAttribute="leading" id="BBq-vt-iQE"/>
+                                                <constraint firstItem="PAN-Py-Xnf" firstAttribute="leading" secondItem="HZ1-pI-ewl" secondAttribute="leading" id="Dos-BB-SYK"/>
+                                                <constraint firstItem="gMo-Gm-IHM" firstAttribute="leading" secondItem="HZ1-pI-ewl" secondAttribute="leading" id="Ejm-uy-gTs"/>
+                                                <constraint firstItem="S9b-bl-CPN" firstAttribute="top" secondItem="PAN-Py-Xnf" secondAttribute="bottom" constant="4" id="IZr-r2-meq"/>
+                                                <constraint firstItem="gMo-Gm-IHM" firstAttribute="top" secondItem="HZ1-pI-ewl" secondAttribute="top" id="KFw-GT-9jc"/>
+                                                <constraint firstItem="S9b-bl-CPN" firstAttribute="bottom" relation="lessThanOrEqual" secondItem="HZ1-pI-ewl" secondAttribute="bottom" id="VDF-KY-UIv"/>
+                                                <constraint firstItem="PAN-Py-Xnf" firstAttribute="top" secondItem="gMo-Gm-IHM" secondAttribute="bottom" constant="6" id="XAO-9v-tLh"/>
+                                                <constraint firstAttribute="trailing" secondItem="PAN-Py-Xnf" secondAttribute="trailing" id="c2Y-dw-BC6"/>
+                                                <constraint firstAttribute="trailing" secondItem="gMo-Gm-IHM" secondAttribute="trailing" id="iNE-b6-k1C"/>
+                                                <constraint firstAttribute="trailing" secondItem="S9b-bl-CPN" secondAttribute="trailing" id="yW6-ZD-4A1"/>
+                                            </constraints>
+                                        </collectionViewCellContentView>
+                                        <connections>
+                                            <outlet property="posterImageView" destination="gMo-Gm-IHM" id="ed7-6O-91l"/>
+                                            <outlet property="ratingLabel" destination="S9b-bl-CPN" id="x9V-3v-Ps4"/>
+                                            <outlet property="titleLabel" destination="PAN-Py-Xnf" id="nMi-rl-WTS"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="dLq-Q0-2kd"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="OlG-fD-xYh" firstAttribute="leading" secondItem="dLq-Q0-2kd" secondAttribute="leading" constant="16" id="T9m-jh-ySw"/>
+                            <constraint firstItem="dLq-Q0-2kd" firstAttribute="trailing" secondItem="OlG-fD-xYh" secondAttribute="trailing" constant="16" id="TlV-4p-6ek"/>
+                            <constraint firstItem="OlG-fD-xYh" firstAttribute="top" secondItem="dLq-Q0-2kd" secondAttribute="top" id="bez-gP-6eF"/>
+                            <constraint firstItem="dLq-Q0-2kd" firstAttribute="bottom" secondItem="OlG-fD-xYh" secondAttribute="bottom" id="hDc-nd-c6r"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Favorites" id="DdK-VE-4Ma"/>
+                    <connections>
+                        <outlet property="collectionView" destination="OlG-fD-xYh" id="puD-kf-bte"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e3M-fr-bwb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
