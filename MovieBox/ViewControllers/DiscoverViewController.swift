@@ -48,6 +48,42 @@ class DiscoverViewController: UIViewController {
 
     }
 
+    @IBAction func popularSeeAllTapped(_ sender: UIButton) {
+        guard
+            let movieListVC = storyboard?.instantiateViewController(
+                identifier: "MovieListViewController"
+            ) as? MovieListViewController
+        else { return }
+
+        movieListVC.category = .popular
+
+        navigationController?.pushViewController(movieListVC, animated: true)
+    }
+
+    @IBAction func nowPlayingSeeAllTapped(_ sender: UIButton) {
+        guard
+            let movieListVC = storyboard?.instantiateViewController(
+                withIdentifier: "MovieListViewController"
+            ) as? MovieListViewController
+        else { return }
+
+        movieListVC.category = .nowPlaying
+
+        navigationController?.pushViewController(movieListVC, animated: true)
+    }
+
+    @IBAction func topRatedSeeAllTapped(_ sender: UIButton) {
+        guard
+            let movieListVC = storyboard?.instantiateViewController(
+                withIdentifier: "MovieListViewController"
+            ) as? MovieListViewController
+        else { return }
+
+        movieListVC.category = .topRated
+
+        navigationController?.pushViewController(movieListVC, animated: true)
+    }
+
 }
 
 // MARK: - UICollectionView DataSource & Delegate

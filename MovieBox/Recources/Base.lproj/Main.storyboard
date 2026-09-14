@@ -426,6 +426,9 @@
                                                 <buttonConfiguration key="configuration" style="plain" title="See All &gt;">
                                                     <fontDescription key="titleFontDescription" type="system" pointSize="14"/>
                                                 </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="popularSeeAllTapped:" destination="bhy-rS-pqu" eventType="touchUpInside" id="I6X-iN-cJp"/>
+                                                </connections>
                                             </button>
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="1RH-WW-QKJ">
                                                 <rect key="frame" x="20" y="86" width="373" height="230"/>
@@ -499,6 +502,9 @@
                                                 <buttonConfiguration key="configuration" style="plain" title="See All &gt;">
                                                     <fontDescription key="titleFontDescription" type="system" pointSize="14"/>
                                                 </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="nowPlayingSeeAllTapped:" destination="bhy-rS-pqu" eventType="touchUpInside" id="k34-d0-MtC"/>
+                                                </connections>
                                             </button>
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="fRT-Vx-PGs">
                                                 <rect key="frame" x="20" y="376" width="373" height="230"/>
@@ -571,6 +577,9 @@
                                                 <buttonConfiguration key="configuration" style="plain" title="See All &gt;">
                                                     <fontDescription key="titleFontDescription" type="system" pointSize="14"/>
                                                 </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="topRatedSeeAllTapped:" destination="bhy-rS-pqu" eventType="touchUpInside" id="YGm-0E-1G2"/>
+                                                </connections>
                                             </button>
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="eHP-pP-ZsH">
                                                 <rect key="frame" x="20" y="666" width="373" height="230"/>
@@ -695,6 +704,89 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="X7l-qs-XLJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3674" y="113"/>
+        </scene>
+        <!--Movie List View Controller-->
+        <scene sceneID="eBj-U9-rGB">
+            <objects>
+                <viewController storyboardIdentifier="MovieListViewController" id="bkW-VK-evM" customClass="MovieListViewController" customModule="MovieBox" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="fDX-u4-Wtp">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="EBE-yy-AJk">
+                                <rect key="frame" x="16" y="118" width="361" height="666"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="20" minimumInteritemSpacing="12" id="NLE-e6-cRm">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MovieCell" id="8PM-Ho-6Cu" customClass="MovieCollectionViewCell" customModule="MovieBox" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="uY9-Im-fV4">
+                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NAt-83-7J1">
+                                                    <rect key="frame" x="0.0" y="0.0" width="128" height="118"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="160" id="U0Z-KH-ZNG"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k6T-pw-bVd">
+                                                    <rect key="frame" x="0.0" y="124" width="128" height="0.0"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rating" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Axt-hL-OPX">
+                                                    <rect key="frame" x="0.0" y="128" width="128" height="0.0"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Axt-hL-OPX" firstAttribute="leading" secondItem="uY9-Im-fV4" secondAttribute="leading" id="0Nl-m8-6R3"/>
+                                                <constraint firstAttribute="trailing" secondItem="k6T-pw-bVd" secondAttribute="trailing" id="CwL-ZO-eto"/>
+                                                <constraint firstAttribute="trailing" secondItem="Axt-hL-OPX" secondAttribute="trailing" id="KId-6y-zSV"/>
+                                                <constraint firstItem="NAt-83-7J1" firstAttribute="leading" secondItem="uY9-Im-fV4" secondAttribute="leading" id="TeY-kd-ERv"/>
+                                                <constraint firstItem="NAt-83-7J1" firstAttribute="top" secondItem="uY9-Im-fV4" secondAttribute="top" id="Vl2-ao-OFG"/>
+                                                <constraint firstItem="k6T-pw-bVd" firstAttribute="top" secondItem="NAt-83-7J1" secondAttribute="bottom" constant="6" id="YBj-YH-3el"/>
+                                                <constraint firstItem="Axt-hL-OPX" firstAttribute="top" secondItem="k6T-pw-bVd" secondAttribute="bottom" constant="4" id="gwj-wO-kyx"/>
+                                                <constraint firstAttribute="trailing" secondItem="NAt-83-7J1" secondAttribute="trailing" id="n39-xq-USr"/>
+                                                <constraint firstItem="k6T-pw-bVd" firstAttribute="leading" secondItem="uY9-Im-fV4" secondAttribute="leading" id="nLK-MC-ib3"/>
+                                                <constraint firstItem="Axt-hL-OPX" firstAttribute="bottom" relation="lessThanOrEqual" secondItem="uY9-Im-fV4" secondAttribute="bottom" id="o9b-IU-jHs"/>
+                                            </constraints>
+                                        </collectionViewCellContentView>
+                                        <connections>
+                                            <outlet property="posterImageView" destination="NAt-83-7J1" id="Kpc-M8-a76"/>
+                                            <outlet property="ratingLabel" destination="Axt-hL-OPX" id="xaJ-tK-qJ7"/>
+                                            <outlet property="titleLabel" destination="k6T-pw-bVd" id="Xql-HV-7TQ"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="N70-L8-mJb"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="N70-L8-mJb" firstAttribute="bottom" secondItem="EBE-yy-AJk" secondAttribute="bottom" id="LHz-A8-MZ4"/>
+                            <constraint firstItem="EBE-yy-AJk" firstAttribute="top" secondItem="N70-L8-mJb" secondAttribute="top" id="h0b-py-JGD"/>
+                            <constraint firstItem="EBE-yy-AJk" firstAttribute="leading" secondItem="N70-L8-mJb" secondAttribute="leading" constant="16" id="hLy-ER-YAj"/>
+                            <constraint firstItem="N70-L8-mJb" firstAttribute="trailing" secondItem="EBE-yy-AJk" secondAttribute="trailing" constant="16" id="tSK-bW-kVW"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="listCollectionView" destination="EBE-yy-AJk" id="oE0-I8-6ZO"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uCi-MZ-mYG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4898" y="137"/>
         </scene>
         <!--Favorites-->
         <scene sceneID="Ldy-Nj-aRm">
