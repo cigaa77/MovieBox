@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		190EC1FC30598DA5005171AD /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 190EC1FB30598D9B005171AD /* README.md */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		1918BFB1304FEC4900FEDC6F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -24,6 +28,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		190EC1FB30598D9B005171AD /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		1918BF9A304FEC4700FEDC6F /* MovieBox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieBox.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1918BFB0304FEC4900FEDC6F /* MovieBoxTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MovieBoxTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1918BFBA304FEC4900FEDC6F /* MovieBoxUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MovieBoxUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -40,6 +45,11 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		190EC1EE30598CAC005171AD /* Screenshots */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Screenshots;
+			sourceTree = "<group>";
+		};
 		1918BF9C304FEC4700FEDC6F /* MovieBox */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -88,6 +98,8 @@
 		1918BF91304FEC4700FEDC6F = {
 			isa = PBXGroup;
 			children = (
+				190EC1FB30598D9B005171AD /* README.md */,
+				190EC1EE30598CAC005171AD /* Screenshots */,
 				1918BF9C304FEC4700FEDC6F /* MovieBox */,
 				1918BFB3304FEC4900FEDC6F /* MovieBoxTests */,
 				1918BFBD304FEC4900FEDC6F /* MovieBoxUITests */,
@@ -121,6 +133,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				190EC1EE30598CAC005171AD /* Screenshots */,
 				1918BF9C304FEC4700FEDC6F /* MovieBox */,
 			);
 			name = MovieBox;
@@ -225,6 +238,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				190EC1FC30598DA5005171AD /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
