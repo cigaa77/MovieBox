@@ -15,6 +15,7 @@ class DiscoverViewController: UIViewController {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var loadingOverlayView: UIView!
     @IBOutlet weak var errorView: UIView!
+    @IBOutlet weak var movieBoxLabel: UILabel!
 
     private let viewModel = DiscoverViewModel()
 
@@ -25,8 +26,11 @@ class DiscoverViewController: UIViewController {
         view.backgroundColor = .systemBackground
         errorView.isHidden = true
 
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.largeTitleDisplayMode = .always
+        navigationController?.navigationBar.prefersLargeTitles = false
+        navigationItem.largeTitleDisplayMode = .never
+        navigationItem.title = nil
+
+        configureMovieBoxTitle()
 
         popularCollectionView.delegate = self
         popularCollectionView.dataSource = self
@@ -39,6 +43,18 @@ class DiscoverViewController: UIViewController {
 
         loadMovies()
 
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        navigationController?.setNavigationBarHidden(false, animated: false)
     }
 
     private func loadMovies() {
@@ -68,6 +84,20 @@ class DiscoverViewController: UIViewController {
         }
     }
 
+    private func configureMovieBoxTitle() {
+        let title = NSMutableAttributedString(
+            string: "Movie",
+            attributes: [.foregroundColor: UIColor.label]
+        )
+        title.append(
+            NSAttributedString(
+                string: "Box",
+                attributes: [.foregroundColor: UIColor.systemYellow]
+            )
+        )
+        movieBoxLabel.attributedText = title
+    }
+
     @IBAction func tryAgainTapped(_ sender: UIButton) {
         loadMovies()
     }
@@ -80,7 +110,7 @@ class DiscoverViewController: UIViewController {
         else { return }
 
         movieListVC.category = .popular
-
+        movieListVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(movieListVC, animated: true)
     }
 
@@ -92,7 +122,7 @@ class DiscoverViewController: UIViewController {
         else { return }
 
         movieListVC.category = .nowPlaying
-
+        movieListVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(movieListVC, animated: true)
     }
 
@@ -104,7 +134,7 @@ class DiscoverViewController: UIViewController {
         else { return }
 
         movieListVC.category = .topRated
-
+        movieListVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(movieListVC, animated: true)
     }
 
@@ -195,6 +225,7 @@ extension DiscoverViewController: UICollectionViewDelegate,
         else { return }
 
         detailVC.movie = movie
+        detailVC.hidesBottomBarWhenPushed = true
 
         navigationController?.pushViewController(detailVC, animated: true)
     }

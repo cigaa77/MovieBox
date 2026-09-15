@@ -33,6 +33,9 @@ final class MovieCollectionViewCell: UICollectionViewCell {
         posterImageView.contentMode = .scaleAspectFit
         posterImageView.tintColor = .secondaryLabel
         posterImageView.backgroundColor = .secondarySystemBackground
+        
+        titleLabel.text = nil
+        ratingLabel.text = nil
     }
 
     func configure(title: String, rating: Double, posterURL: URL?) {
@@ -42,6 +45,9 @@ final class MovieCollectionViewCell: UICollectionViewCell {
         posterImageView.tintColor = .secondaryLabel
         posterImageView.backgroundColor = .secondarySystemBackground
 
+        titleLabel.text = title
+        ratingLabel.text = "⭐️ \(String(format: "%.1f", rating))"
+        
         guard let posterURL else {
             return
         }
@@ -62,9 +68,6 @@ final class MovieCollectionViewCell: UICollectionViewCell {
                 print("Image loading error:", error)
             }
         }
-
-        titleLabel.text = title
-        ratingLabel.text = "⭐️ \(rating)"
     }
 
 }

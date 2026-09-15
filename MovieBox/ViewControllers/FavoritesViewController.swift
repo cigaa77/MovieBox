@@ -24,6 +24,7 @@ final class FavoritesViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        navigationController?.setNavigationBarHidden(true, animated: false)
         loadFavorites()
     }
 
@@ -91,7 +92,8 @@ extension FavoritesViewController: UICollectionViewDelegate,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
         let spacing: CGFloat = 12
-        let witdh = (collectionView.bounds.width - spacing) / 2
+        let finalSpacing = spacing * 2
+        let witdh = (collectionView.bounds.width - finalSpacing) / 3
 
         return CGSize(width: witdh, height: 285)
     }
@@ -109,6 +111,7 @@ extension FavoritesViewController: UICollectionViewDelegate,
         else { return }
 
         detailVC.movie = selectedMovie
+        detailVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(detailVC, animated: true)
     }
 }

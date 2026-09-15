@@ -127,6 +127,7 @@ extension MovieListViewController: UICollectionViewDelegate,
         else { return }
 
         detailVC.movie = selectedItem
+        detailVC.hidesBottomBarWhenPushed = true
 
         navigationController?.pushViewController(detailVC, animated: true)
     }

@@ -34,6 +34,10 @@ final class SearchMovieTableViewCell: UITableViewCell {
         posterImageView.contentMode = .scaleAspectFit
         posterImageView.tintColor = .secondaryLabel
         posterImageView.backgroundColor = .secondarySystemBackground
+        
+        titleLabel.text = nil
+            infoLAbel.text = nil
+            overviewLabel.text = nil
     }
 
     func configure(movie: Movie) {

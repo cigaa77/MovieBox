@@ -22,6 +22,7 @@ final class MovieDetailViewController: UIViewController {
     @IBOutlet weak var loadingOverlayView: UIView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var errorView: UIView!
+    @IBOutlet weak var scrollView: UIScrollView!
 
     var movie: Movie?
     private let viewModel = MovieDetailViewModel()
@@ -42,7 +43,24 @@ final class MovieDetailViewController: UIViewController {
         updateFavoriteButton()
 
         loadMovieDetails()
+        
+        scrollView.contentInsetAdjustmentBehavior = .never
+        scrollView.contentInset.bottom = 30
 
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+        navigationController?.navigationBar.isTranslucent = true
+        edgesForExtendedLayout = [.top]
+        
+        let apperance = UINavigationBarAppearance()
+        apperance.configureWithTransparentBackground()
+        
+        navigationController?.navigationBar.standardAppearance = apperance
+        navigationController?.navigationBar.scrollEdgeAppearance = apperance
     }
 
     private func loadMovieDetails() {
@@ -111,24 +129,32 @@ final class MovieDetailViewController: UIViewController {
         let year = String(movie.releaseDate.prefix(4))
         infoLabel.text = year
 
+        let countString = formatVoteCount(voteCount: movie.voteCount)
         ratingLabel.text =
-            "⭐ \(String(format: "%.1f", movie.voteAverage))  •  \(movie.voteCount) votes"
+            "⭐ \(String(format: "%.1f", movie.voteAverage))  •  \(countString) votes"
 
         overviewLabel.text = movie.overview
 
-        if let backdropURL = movie.backdropURL {
+        backdropImageView.image = UIImage(systemName: "film")
+        backdropImageView.contentMode = .scaleAspectFit
+        backdropImageView.tintColor = .secondaryLabel
+        backdropImageView.backgroundColor = .secondarySystemBackground
 
-            Task {
-                do {
-                    let image = try await ImageLoader.shared.loadImage(
-                        from: backdropURL
-                    )
-                    backdropImageView.image = image
-                } catch {
-                    print(error)
-                }
+        guard let backdropURL = movie.backdropURL else {
+            return
+        }
+
+        Task {
+            do {
+                let image = try await ImageLoader.shared.loadImage(
+                    from: backdropURL
+                )
+
+                backdropImageView.image = image
+                backdropImageView.contentMode = .scaleAspectFill
+            } catch {
+                print(error)
             }
-
         }
 
     }
@@ -180,8 +206,23 @@ final class MovieDetailViewController: UIViewController {
                 UIImage(systemName: imageName),
                 for: .normal
             )
+            favoriteButton.tintColor = .systemYellow
+
         } catch { print(error) }
 
+    }
+
+    private func formatVoteCount(voteCount: Int) -> String {
+        switch voteCount {
+        case 0...999:
+            return "\(voteCount)"
+        case 1000...999_999:
+            let count = Double(voteCount) / 1000.0
+            return String(format: "%.1fK", count)
+        default:
+            let count = Double(voteCount) / 1_000_000.0
+            return String(format: "%.1fM", count)
+        }
     }
 }
 
@@ -252,6 +293,7 @@ extension MovieDetailViewController: UICollectionViewDelegate,
 
         detailVC.movie = selectedMovie
 
+        detailVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(detailVC, animated: true)
     }
 }

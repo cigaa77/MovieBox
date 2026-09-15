@@ -26,6 +26,12 @@ final class SearchViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        navigationController?.setNavigationBarHidden(true, animated: false)
+    }
 }
 
 // MARK: - UISearchBar Delegate
@@ -148,6 +154,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         else { return }
 
         detailViewController.movie = movie
+        detailViewController.hidesBottomBarWhenPushed = true
 
         navigationController?.pushViewController(
             detailViewController,

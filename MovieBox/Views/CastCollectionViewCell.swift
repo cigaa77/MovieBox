@@ -19,7 +19,10 @@ final class CastCollectionViewCell: UICollectionViewCell {
         nameLabel.text = castMember.name
         characterLabel.text = castMember.character
 
-        profileImageView.image = UIImage(systemName: "film")
+        profileImageView.image = UIImage(systemName: "person.fill")
+        profileImageView.contentMode = .scaleAspectFit
+        profileImageView.tintColor = .secondaryLabel
+        profileImageView.backgroundColor = .secondarySystemBackground
 
         guard let profilURL = castMember.profileURL else {
             return
@@ -34,6 +37,7 @@ final class CastCollectionViewCell: UICollectionViewCell {
                 guard !Task.isCancelled else { return }
 
                 profileImageView.image = image
+                profileImageView.contentMode = .scaleAspectFill
 
             } catch is CancellationError {
 
@@ -42,6 +46,13 @@ final class CastCollectionViewCell: UICollectionViewCell {
             }
         }
     }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        profileImageView.layer.cornerRadius = profileImageView.bounds.width / 2
+        profileImageView.clipsToBounds = true
+    }
 
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -49,7 +60,11 @@ final class CastCollectionViewCell: UICollectionViewCell {
         imageTask?.cancel()
         imageTask = nil
 
-        profileImageView.image = UIImage(systemName: "film")
+        profileImageView.image = UIImage(systemName: "person.fill")
+        profileImageView.contentMode = .scaleAspectFit
+        profileImageView.tintColor = .secondaryLabel
+        profileImageView.backgroundColor = .secondarySystemBackground
+
         nameLabel.text = nil
         characterLabel.text = nil
     }
