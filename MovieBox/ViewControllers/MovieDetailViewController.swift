@@ -19,6 +19,9 @@ final class MovieDetailViewController: UIViewController {
     @IBOutlet weak var directorLabel: UILabel!
     @IBOutlet weak var castCollectionView: UICollectionView!
     @IBOutlet weak var similarMoviesCollectionView: UICollectionView!
+    @IBOutlet weak var loadingOverlayView: UIView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var errorView: UIView!
 
     var movie: Movie?
     private let viewModel = MovieDetailViewModel()
@@ -38,8 +41,24 @@ final class MovieDetailViewController: UIViewController {
         configure(with: movie)
         updateFavoriteButton()
 
+        loadMovieDetails()
+
+    }
+
+    private func loadMovieDetails() {
+        guard let movie else { return }
         Task {
+
+            loadingOverlayView.isHidden = false
+            activityIndicator.startAnimating()
+            errorView.isHidden = true
+
+            defer {
+                loadingOverlayView.isHidden = true
+                activityIndicator.stopAnimating()
+            }
             do {
+
                 try await viewModel.fetchMovieDetail(id: movie.id)
 
                 guard let detail = viewModel.movieDetail else { return }
@@ -74,8 +93,15 @@ final class MovieDetailViewController: UIViewController {
                 castCollectionView.reloadData()
                 similarMoviesCollectionView.reloadData()
 
-            } catch { print(error) }
+            } catch {
+                errorView.isHidden = false
+                print(error)
+            }
         }
+    }
+
+    @IBAction func tryAgainButtonTapped(_ sender: UIButton) {
+        loadMovieDetails()
     }
 
     private func configure(with movie: Movie) {

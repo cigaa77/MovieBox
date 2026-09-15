@@ -11,6 +11,9 @@ final class SearchViewController: UIViewController {
 
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var errorLabel: UILabel!
+    @IBOutlet weak var emptyStateLabel: UILabel!
 
     private let viewModel = SearchViewModel()
     private var searchTask: Task<Void, Never>?
@@ -39,10 +42,20 @@ extension SearchViewController: UISearchBarDelegate {
         guard !query.isEmpty else { return }
 
         Task {
+            errorLabel.isHidden = true
+            emptyStateLabel.isHidden = true
+            activityIndicator.startAnimating()
+
+            defer {
+                activityIndicator.stopAnimating()
+            }
+
             do {
                 try await viewModel.searchMovies(query: query)
+                emptyStateLabel.isHidden = !viewModel.movies.isEmpty
                 tableView.reloadData()
             } catch {
+                errorLabel.isHidden = false
                 print("search error: \(error.localizedDescription)")
             }
         }
@@ -55,6 +68,9 @@ extension SearchViewController: UISearchBarDelegate {
         let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
 
         guard !query.isEmpty else {
+            errorLabel.isHidden = true
+            emptyStateLabel.isHidden = true
+            activityIndicator.stopAnimating()
             viewModel.clearResults()
             tableView.reloadData()
             return
@@ -64,15 +80,26 @@ extension SearchViewController: UISearchBarDelegate {
             do {
                 try await Task.sleep(for: .milliseconds(400))
 
+                errorLabel.isHidden = true
+                activityIndicator.startAnimating()
+                emptyStateLabel.isHidden = true
+
                 try await viewModel.searchMovies(query: query)
 
                 guard !Task.isCancelled else { return }
 
+                activityIndicator.stopAnimating()
+                emptyStateLabel.isHidden = !viewModel.movies.isEmpty
                 tableView.reloadData()
 
             } catch is CancellationError {
+                activityIndicator.stopAnimating()
                 return
-            } catch { print("Search error: \(error.localizedDescription)") }
+            } catch {
+                activityIndicator.stopAnimating()
+                errorLabel.isHidden = false
+                print("Search error: \(error.localizedDescription)")
+            }
 
         }
     }
@@ -106,15 +133,25 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
 
         return cell
     }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+
+    func tableView(
+        _ tableView: UITableView,
+        didSelectRowAt indexPath: IndexPath
+    ) {
+
         let movie = viewModel.movies[indexPath.row]
-        
-        guard let detailViewController = storyboard?.instantiateViewController(withIdentifier: "MovieDetailViewController") as? MovieDetailViewController else { return }
-        
+
+        guard
+            let detailViewController = storyboard?.instantiateViewController(
+                withIdentifier: "MovieDetailViewController"
+            ) as? MovieDetailViewController
+        else { return }
+
         detailViewController.movie = movie
-        
-        navigationController?.pushViewController(detailViewController, animated: true)
+
+        navigationController?.pushViewController(
+            detailViewController,
+            animated: true
+        )
     }
 }

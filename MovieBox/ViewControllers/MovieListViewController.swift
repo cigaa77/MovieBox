@@ -10,6 +10,9 @@ import UIKit
 final class MovieListViewController: UIViewController {
 
     @IBOutlet weak var listCollectionView: UICollectionView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var loadingOverlayView: UIView!
+    @IBOutlet weak var errorView: UIView!
 
     private let viewModel = MovieListViewModel()
 
@@ -39,11 +42,26 @@ final class MovieListViewController: UIViewController {
     private func loadMovies() {
 
         Task {
+            loadingOverlayView.isHidden = false
+            activityIndicator.startAnimating()
+            errorView.isHidden = true
+
+            defer {
+                loadingOverlayView.isHidden = true
+                activityIndicator.stopAnimating()
+            }
             do {
                 try await viewModel.fetchMovies(for: category)
                 listCollectionView.reloadData()
-            } catch { print(error) }
+            } catch {
+                errorView.isHidden = false
+                print(error)
+            }
         }
+    }
+
+    @IBAction func retryButtonTapped(_ sender: Any) {
+        loadMovies()
     }
 }
 

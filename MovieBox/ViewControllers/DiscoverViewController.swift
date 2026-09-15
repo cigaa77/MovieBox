@@ -12,6 +12,9 @@ class DiscoverViewController: UIViewController {
     @IBOutlet weak var popularCollectionView: UICollectionView!
     @IBOutlet weak var nowPlayingCollectionView: UICollectionView!
     @IBOutlet weak var topRatedCollectionView: UICollectionView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var loadingOverlayView: UIView!
+    @IBOutlet weak var errorView: UIView!
 
     private let viewModel = DiscoverViewModel()
 
@@ -20,6 +23,7 @@ class DiscoverViewController: UIViewController {
         // Do any additional setup after loading the view.
 
         view.backgroundColor = .systemBackground
+        errorView.isHidden = true
 
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
@@ -33,8 +37,24 @@ class DiscoverViewController: UIViewController {
         topRatedCollectionView.delegate = self
         topRatedCollectionView.dataSource = self
 
+        loadMovies()
+
+    }
+
+    private func loadMovies() {
         Task {
+
+            loadingOverlayView.isHidden = false
+            errorView.isHidden = true
+            activityIndicator.startAnimating()
+
+            defer {
+                loadingOverlayView.isHidden = true
+                activityIndicator.stopAnimating()
+            }
+
             do {
+
                 try await viewModel.fetchMovies()
 
                 popularCollectionView.reloadData()
@@ -42,10 +62,14 @@ class DiscoverViewController: UIViewController {
                 topRatedCollectionView.reloadData()
 
             } catch {
+                errorView.isHidden = false
                 print("Error: ", error)
             }
         }
+    }
 
+    @IBAction func tryAgainTapped(_ sender: UIButton) {
+        loadMovies()
     }
 
     @IBAction func popularSeeAllTapped(_ sender: UIButton) {
